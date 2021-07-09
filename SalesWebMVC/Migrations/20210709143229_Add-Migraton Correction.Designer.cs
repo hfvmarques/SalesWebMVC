@@ -9,8 +9,8 @@ using SalesWebMVC.Models;
 namespace SalesWebMVC.Migrations
 {
     [DbContext(typeof(SalesWebMVCContext))]
-    [Migration("20210708011808_DepartmentForeignKey")]
-    partial class DepartmentForeignKey
+    [Migration("20210709143229_Add-Migraton Correction")]
+    partial class AddMigratonCorrection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,13 +40,13 @@ namespace SalesWebMVC.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("MyPropertyId");
+                    b.Property<int?>("SellerId");
 
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MyPropertyId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("SalesRecord");
                 });
@@ -62,9 +62,12 @@ namespace SalesWebMVC.Migrations
 
                     b.Property<int>("DepartmentId");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
 
                     b.HasKey("Id");
 
@@ -75,9 +78,9 @@ namespace SalesWebMVC.Migrations
 
             modelBuilder.Entity("SalesWebMVC.Models.SalesRecord", b =>
                 {
-                    b.HasOne("SalesWebMVC.Models.Seller", "MyProperty")
+                    b.HasOne("SalesWebMVC.Models.Seller", "Seller")
                         .WithMany("Sales")
-                        .HasForeignKey("MyPropertyId");
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("SalesWebMVC.Models.Seller", b =>

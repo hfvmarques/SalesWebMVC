@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SalesWebMVC.Data;
+using SalesWebMVC.Models;
 
 namespace SalesWebMVC.Migrations
 {
@@ -38,13 +38,13 @@ namespace SalesWebMVC.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int?>("MyPropertyId");
+                    b.Property<int?>("SellerId");
 
                     b.Property<int>("Status");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MyPropertyId");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("SalesRecord");
                 });
@@ -60,9 +60,12 @@ namespace SalesWebMVC.Migrations
 
                     b.Property<int>("DepartmentId");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60);
 
                     b.HasKey("Id");
 
@@ -73,9 +76,9 @@ namespace SalesWebMVC.Migrations
 
             modelBuilder.Entity("SalesWebMVC.Models.SalesRecord", b =>
                 {
-                    b.HasOne("SalesWebMVC.Models.Seller", "MyProperty")
+                    b.HasOne("SalesWebMVC.Models.Seller", "Seller")
                         .WithMany("Sales")
-                        .HasForeignKey("MyPropertyId");
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("SalesWebMVC.Models.Seller", b =>
